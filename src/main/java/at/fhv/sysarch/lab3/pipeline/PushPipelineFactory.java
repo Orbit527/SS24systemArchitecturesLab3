@@ -18,14 +18,15 @@ public class PushPipelineFactory {
         //TODO: size not setting correctly
         ResizeFilter resizeFilter = new ResizeFilter(1);
         ModelViewTransformation trans = new ModelViewTransformation();
+        BackfaceCulling backface = new BackfaceCulling();
         PerspectiveTransformation persTrans = new PerspectiveTransformation();
         ViewportTransformation viewTrans = new ViewportTransformation();
         Renderer renderer = new Renderer(pd.getGraphicsContext(), pd.getRenderingMode(),pd.getModelColor());
 
-
         viewTrans.setSuccessor(renderer);
         persTrans.setSuccessor(viewTrans);
-        trans.setSuccessor(persTrans);
+        backface.setSuccessor(persTrans);
+        trans.setSuccessor(backface);
         resizeFilter.setSuccessor(trans);
         source.setSuccessor(resizeFilter);
 
