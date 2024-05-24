@@ -1,12 +1,33 @@
 package at.fhv.sysarch.lab3.pipeline;
 
 import at.fhv.sysarch.lab3.animation.AnimationRenderer;
+import at.fhv.sysarch.lab3.obj.Face;
 import at.fhv.sysarch.lab3.obj.Model;
+import at.fhv.sysarch.lab3.pipeline.filters.*;
+import com.hackoeur.jglm.Mat4;
+import com.hackoeur.jglm.Matrices;
+import com.hackoeur.jglm.Vec3;
+import com.hackoeur.jglm.Vec4;
 import javafx.animation.AnimationTimer;
 
 public class PushPipelineFactory {
     public static AnimationTimer createPipeline(PipelineData pd) {
         // TODO: push from the source (model)
+
+        SourceSingle source = new SourceSingle();
+        //TODO: size not setting correctly
+        ResizeFilter resizeFilter = new ResizeFilter(1);
+        ModelViewTransformation trans = new ModelViewTransformation();
+        PerspectiveTransformation persTrans = new PerspectiveTransformation();
+        ViewportTransformation viewTrans = new ViewportTransformation();
+        Renderer renderer = new Renderer(pd.getGraphicsContext(), pd.getRenderingMode(),pd.getModelColor());
+
+
+        viewTrans.setSuccessor(renderer);
+        persTrans.setSuccessor(viewTrans);
+        trans.setSuccessor(persTrans);
+        resizeFilter.setSuccessor(trans);
+        source.setSuccessor(resizeFilter);
 
         // TODO 1. perform model-view transformation from model to VIEW SPACE coordinates
 
@@ -34,6 +55,8 @@ public class PushPipelineFactory {
         return new AnimationRenderer(pd) {
             // TODO rotation variable goes in here
 
+            private float rotation = 0;
+
             /** This method is called for every frame from the JavaFX Animation
              * system (using an AnimationTimer, see AnimationRenderer). 
              * @param fraction the time which has passed since the last render call in a fraction of a second
@@ -41,6 +64,39 @@ public class PushPipelineFactory {
              */
             @Override
             protected void render(float fraction, Model model) {
+
+                rotation += fraction * 2;
+
+                // Diese drei vielleicht auslagern
+                Mat4 rotMat = Matrices.rotate(rotation, pd.getModelRotAxis());
+                Mat4 modelTransMat = pd.getModelTranslation().multiply(rotMat);
+                Mat4 viewTransMat = pd.getViewTransform().multiply(modelTransMat);
+
+                trans.setTransMatrix(viewTransMat);
+
+                persTrans.setProjMatrix(pd.getProjTransform());
+                viewTrans.setViewMatrix(pd.getViewportTransform());
+
+
+
+                // alles zusammen ist ein eigener Filter: ViewTransform
+
+                // Object dann multiplizieren
+                pd.getModelRotAxis();
+                // das vorherige mit der modeltranlation multiplizieren
+                pd.getModelTranslation();
+                // wieder das vorherige mit dem jetzigen
+                pd.getViewTransform();
+                // das Ergebnis wird dann mit den Faces multipliziert
+
+
+                // Neuer Filter
+                pd.getProjTransform();
+                pd.getViewportTransform();
+
+
+
+                source.write(model);
 
                 // TODO compute rotation in radians
 
