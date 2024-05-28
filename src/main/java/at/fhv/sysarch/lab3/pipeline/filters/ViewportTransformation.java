@@ -4,9 +4,9 @@ import at.fhv.sysarch.lab3.obj.Face;
 import com.hackoeur.jglm.Mat4;
 import com.hackoeur.jglm.Vec4;
 
-public class ViewportTransformation implements IFilter<Face, Face>{
+public class ViewportTransformation implements IFilter<DataPair, DataPair>{
 
-    private IFilter<Face, ?> successor;
+    private IFilter<DataPair, ?> successor;
     private Mat4 viewMatrix;
 
     public void setViewMatrix(Mat4 matrix) {
@@ -14,19 +14,22 @@ public class ViewportTransformation implements IFilter<Face, Face>{
     }
 
     @Override
-    public void setSuccessor(IFilter<Face, ?> successor) {
+    public void setSuccessor(IFilter<DataPair, ?> successor) {
         this.successor = successor;
     }
 
     @Override
-    public void write(Face f) {
+    public void write(DataPair dataPair) {
 
-        Vec4 v1ViewPortNew = viewMatrix.multiply(f.getV1().multiply( 1.0f / f.getV1().getW()));
-        Vec4 v2ViewPortNew = viewMatrix.multiply(f.getV2().multiply( 1.0f / f.getV2().getW()));
-        Vec4 v3ViewPortNew = viewMatrix.multiply(f.getV3().multiply( 1.0f / f.getV3().getW()));
+        Vec4 v1ViewPortNew = viewMatrix.multiply(dataPair.getFace().getV1().multiply( 1.0f / dataPair.getFace().getV1().getW()));
+        Vec4 v2ViewPortNew = viewMatrix.multiply(dataPair.getFace().getV2().multiply( 1.0f / dataPair.getFace().getV2().getW()));
+        Vec4 v3ViewPortNew = viewMatrix.multiply(dataPair.getFace().getV3().multiply( 1.0f / dataPair.getFace().getV3().getW()));
 
-        Face newFace = new Face(v1ViewPortNew, v2ViewPortNew, v3ViewPortNew, f.getN1(), f.getN2(), f.getN3());
-        this.successor.write(newFace);
+        Face newFace = new Face(v1ViewPortNew, v2ViewPortNew, v3ViewPortNew, dataPair.getFace().getN1(), dataPair.getFace().getN2(), dataPair.getFace().getN3());
+
+        DataPair newDataPair = new DataPair(newFace, dataPair.getColor());
+
+        this.successor.write(newDataPair);
 
     }
 }

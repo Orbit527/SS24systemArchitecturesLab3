@@ -15,10 +15,12 @@ public class ResizeFilter implements IFilter<Face, Face> {
         this.size = size;
     }
 
+    @Override
     public void setSuccessor(IFilter<Face, ?> r) {
         this.successor = r;
     }
 
+    @Override
     public void write(Face face) {
         Face newFace = new Face(face.getV1().multiply(size), face.getV2().multiply(size), face.getV3().multiply(size), face);
         this.successor.write(newFace);

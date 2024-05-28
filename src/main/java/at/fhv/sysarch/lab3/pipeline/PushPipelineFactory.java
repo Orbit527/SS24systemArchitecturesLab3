@@ -19,13 +19,19 @@ public class PushPipelineFactory {
         ResizeFilter resizeFilter = new ResizeFilter(1);
         ModelViewTransformation trans = new ModelViewTransformation();
         BackfaceCulling backface = new BackfaceCulling();
+        DepthSorting depthSorting = new DepthSorting();
+        Coloring coloring = new Coloring(pd.getModelColor());
+        Lighting lighting = new Lighting(pd.getLightPos(), pd.isPerformLighting());
         PerspectiveTransformation persTrans = new PerspectiveTransformation();
         ViewportTransformation viewTrans = new ViewportTransformation();
-        Renderer renderer = new Renderer(pd.getGraphicsContext(), pd.getRenderingMode(),pd.getModelColor());
+        Renderer renderer = new Renderer(pd.getGraphicsContext(), pd.getRenderingMode());
 
         viewTrans.setSuccessor(renderer);
         persTrans.setSuccessor(viewTrans);
-        backface.setSuccessor(persTrans);
+        lighting.setSuccessor(persTrans);
+        coloring.setSuccessor(lighting);
+        depthSorting.setSuccessor(coloring);
+        backface.setSuccessor(depthSorting);
         trans.setSuccessor(backface);
         resizeFilter.setSuccessor(trans);
         source.setSuccessor(resizeFilter);
@@ -54,7 +60,6 @@ public class PushPipelineFactory {
         // returning an animation renderer which handles clearing of the
         // viewport and computation of the praction
         return new AnimationRenderer(pd) {
-            // TODO rotation variable goes in here
 
             private float rotation = 0;
 
@@ -66,49 +71,27 @@ public class PushPipelineFactory {
             @Override
             protected void render(float fraction, Model model) {
 
-                rotation += fraction * 2;
+                // compute rotation in radians
+                rotation += fraction * 1;
 
-                // Diese drei vielleicht auslagern
+                // TODO: Diese drei vielleicht auslagern
+
+                // create new model rotation matrix using pd.modelRotAxis
                 Mat4 rotMat = Matrices.rotate(rotation, pd.getModelRotAxis());
+
+                // compute updated model-view tranformation
                 Mat4 modelTransMat = pd.getModelTranslation().multiply(rotMat);
+
+                // update model-view filter
                 Mat4 viewTransMat = pd.getViewTransform().multiply(modelTransMat);
 
+                // set additional matrices for filters
                 trans.setTransMatrix(viewTransMat);
-
                 persTrans.setProjMatrix(pd.getProjTransform());
                 viewTrans.setViewMatrix(pd.getViewportTransform());
 
-
-
-                // alles zusammen ist ein eigener Filter: ViewTransform
-
-                // Object dann multiplizieren
-                pd.getModelRotAxis();
-                // das vorherige mit der modeltranlation multiplizieren
-                pd.getModelTranslation();
-                // wieder das vorherige mit dem jetzigen
-                pd.getViewTransform();
-                // das Ergebnis wird dann mit den Faces multipliziert
-
-
-                // Neuer Filter
-                pd.getProjTransform();
-                pd.getViewportTransform();
-
-
-
+                // trigger rendering of the pipeline
                 source.write(model);
-
-                // TODO compute rotation in radians
-
-                // TODO create new model rotation matrix using pd.modelRotAxis
-
-                // TODO compute updated model-view tranformation
-
-                // TODO update model-view filter
-
-                // TODO trigger rendering of the pipeline
-
             }
         };
     }
