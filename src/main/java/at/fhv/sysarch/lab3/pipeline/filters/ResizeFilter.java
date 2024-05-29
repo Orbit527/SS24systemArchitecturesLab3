@@ -5,9 +5,11 @@ import at.fhv.sysarch.lab3.pipeline.PipelineData;
 import com.hackoeur.jglm.Matrices;
 import com.hackoeur.jglm.Vec3;
 
-public class ResizeFilter implements IFilter<Face, Face> {
+import java.util.Optional;
 
-    private IFilter<Face, ?> successor;
+public class ResizeFilter implements IFilter<Optional<Face>, Optional<Face>> {
+
+    private IFilter<Optional<Face>, ?> successor;
 
     private int size;
 
@@ -16,13 +18,18 @@ public class ResizeFilter implements IFilter<Face, Face> {
     }
 
     @Override
-    public void setSuccessor(IFilter<Face, ?> r) {
+    public void setSuccessor(IFilter<Optional<Face>, ?> r) {
         this.successor = r;
     }
 
     @Override
-    public void write(Face face) {
-        Face newFace = new Face(face.getV1().multiply(size), face.getV2().multiply(size), face.getV3().multiply(size), face);
-        this.successor.write(newFace);
+    public void write(Optional<Face> face) {
+
+        if (face.isPresent()) {
+            Face newFace = new Face(face.get().getV1().multiply(size), face.get().getV2().multiply(size), face.get().getV3().multiply(size), face.get());
+            this.successor.write(Optional.of(newFace));
+        } else {
+            successor.write(Optional.empty());
+        }
     }
 }

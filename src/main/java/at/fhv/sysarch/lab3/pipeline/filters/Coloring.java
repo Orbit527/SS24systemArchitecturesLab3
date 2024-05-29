@@ -3,7 +3,9 @@ package at.fhv.sysarch.lab3.pipeline.filters;
 import at.fhv.sysarch.lab3.obj.Face;
 import javafx.scene.paint.Color;
 
-public class Coloring implements IFilter<Face, DataPair>{
+import java.util.Optional;
+
+public class Coloring implements IFilter<Optional<Face>, DataPair>{
 
 
     private IFilter<DataPair, ?> successor;
@@ -19,8 +21,10 @@ public class Coloring implements IFilter<Face, DataPair>{
     }
 
     @Override
-    public void write(Face face) {
-        DataPair dataPair = new DataPair(face, color);
-        this.successor.write(dataPair);
+    public void write(Optional<Face> face) {
+        if (face.isPresent()) {
+            DataPair dataPair = new DataPair(face.get(), color);
+            this.successor.write(dataPair);
+        }
     }
 }

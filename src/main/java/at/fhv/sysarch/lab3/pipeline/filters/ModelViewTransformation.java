@@ -4,9 +4,11 @@ import at.fhv.sysarch.lab3.obj.Face;
 import com.hackoeur.jglm.Mat4;
 import com.hackoeur.jglm.Vec4;
 
-public class ModelViewTransformation implements IFilter<Face, Face> {
+import java.util.Optional;
 
-    private IFilter<Face, ?> successor;
+public class ModelViewTransformation implements IFilter<Optional<Face>, Optional<Face>> {
+
+    private IFilter<Optional<Face>, ?> successor;
     private Mat4 transMatrix;
 
     public void setTransMatrix(Mat4 matrix) {
@@ -19,20 +21,23 @@ public class ModelViewTransformation implements IFilter<Face, Face> {
     }
 
     @Override
-    public void write(Face f) {
-            Vec4 v1new = transMatrix.multiply(f.getV1());
-            Vec4 v2new = transMatrix.multiply(f.getV2());
-            Vec4 v3new = transMatrix.multiply(f.getV3());
+    public void write(Optional<Face> f) {
 
-            Vec4 v1NormalNew = transMatrix.multiply(f.getN1());
-            Vec4 v2NormalNew = transMatrix.multiply(f.getN2());
-            Vec4 v3NormalNew = transMatrix.multiply(f.getN3());
+        if (f.isPresent()) {
+            Vec4 v1new = transMatrix.multiply(f.get().getV1());
+            Vec4 v2new = transMatrix.multiply(f.get().getV2());
+            Vec4 v3new = transMatrix.multiply(f.get().getV3());
+
+            Vec4 v1NormalNew = transMatrix.multiply(f.get().getN1());
+            Vec4 v2NormalNew = transMatrix.multiply(f.get().getN2());
+            Vec4 v3NormalNew = transMatrix.multiply(f.get().getN3());
 
             Face transFace = new Face(v1new, v2new, v3new, v1NormalNew, v2NormalNew, v3NormalNew);
 
+            successor.write(Optional.of(transFace));
 
-
-            successor.write(transFace);
-
+        } else {
+            successor.write(Optional.empty());
+        }
     }
 }
