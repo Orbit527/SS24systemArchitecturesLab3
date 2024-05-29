@@ -23,16 +23,11 @@ public class SourceSingle implements IFilter<Model, Optional<Face>> {
 
     public void write(Model model) {
         List<Face> faces = model.getFaces();
-        Iterator<Face> iterator = faces.iterator();
 
-        while (iterator.hasNext()) {
-            Face face = iterator.next();
-            successor.write(Optional.ofNullable(face));
-
-            if (!iterator.hasNext()) {
-                successor.write(Optional.empty());
-            }
-
+        for (Face f : faces) {
+            successor.write(Optional.ofNullable(f));
         }
+
+        successor.write(Optional.empty());
     }
 }

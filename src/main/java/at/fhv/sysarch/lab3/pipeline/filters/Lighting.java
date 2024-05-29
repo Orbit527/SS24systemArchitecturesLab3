@@ -11,10 +11,13 @@ public class Lighting implements IFilter <DataPair, DataPair>{
     private IFilter<DataPair, ?> successor;
 
     private Vec3 lightPos;
-    private Boolean isPerformLighting;
+    private Boolean isPerformLighting = false;
 
-    public Lighting(Vec3 lightPos, Boolean isPerformLighting) {
+    public Lighting(Vec3 lightPos) {
         this.lightPos = lightPos;
+    }
+
+    public void setPerformLighting(Boolean isPerformLighting) {
         this.isPerformLighting = isPerformLighting;
     }
 
@@ -27,9 +30,6 @@ public class Lighting implements IFilter <DataPair, DataPair>{
     public void write(DataPair dp) {
 
         if (this.isPerformLighting == true) {
-
-
-            //TODO: implement further
 
             double factor = lightPos.getUnitVector().dot(dp.getFace().getN1().getUnitVector().toVec3());
 
