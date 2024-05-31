@@ -42,6 +42,12 @@ public class Renderer implements IFilter<DataPair, DataPair>{
             double[] xPoints = { dp.getFace().getV1().getX(), dp.getFace().getV2().getX(), dp.getFace().getV3().getX() };
             double[] yPoints = { dp.getFace().getV1().getY(), dp.getFace().getV2().getY(), dp.getFace().getV3().getY() };
             gpc.fillPolygon(xPoints, yPoints, 3);
+
+            // TODO: Make this more efficient, if possible
+            // Colours in the wireframe
+            gpc.setStroke(dp.getColor());
+            gpc.setLineWidth(1);
+            gpc.strokePolygon(xPoints, yPoints, 3);
         }
     }
 }
