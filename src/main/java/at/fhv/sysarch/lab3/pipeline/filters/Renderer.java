@@ -1,11 +1,7 @@
 package at.fhv.sysarch.lab3.pipeline.filters;
 
-import at.fhv.sysarch.lab3.obj.Face;
 import at.fhv.sysarch.lab3.rendering.RenderingMode;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-
-import java.awt.*;
 
 public class Renderer implements IFilter<DataPair, DataPair>{
 
@@ -23,6 +19,11 @@ public class Renderer implements IFilter<DataPair, DataPair>{
     }
 
     public void write(DataPair dp) {
+         process(dp);
+    }
+
+    @Override
+    public DataPair process(DataPair dp) {
         gpc.setStroke(dp.getColor());
         if(this.renderingMode == RenderingMode.POINT) {
             gpc.setLineWidth(1);
@@ -43,11 +44,11 @@ public class Renderer implements IFilter<DataPair, DataPair>{
             double[] yPoints = { dp.getFace().getV1().getY(), dp.getFace().getV2().getY(), dp.getFace().getV3().getY() };
             gpc.fillPolygon(xPoints, yPoints, 3);
 
-            // TODO: Make this more efficient, if possible
             // Colours in the wireframe
             gpc.setStroke(dp.getColor());
             gpc.setLineWidth(1);
             gpc.strokePolygon(xPoints, yPoints, 3);
         }
+        return dp;
     }
 }

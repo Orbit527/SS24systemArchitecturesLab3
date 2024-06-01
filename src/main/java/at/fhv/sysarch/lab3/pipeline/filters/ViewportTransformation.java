@@ -20,7 +20,11 @@ public class ViewportTransformation implements IFilter<DataPair, DataPair>{
 
     @Override
     public void write(DataPair dataPair) {
+        successor.write(process(dataPair));
+    }
 
+    @Override
+    public DataPair process(DataPair dataPair) {
         Vec4 v1ViewPortNew = viewMatrix.multiply(dataPair.getFace().getV1().multiply( 1.0f / dataPair.getFace().getV1().getW()));
         Vec4 v2ViewPortNew = viewMatrix.multiply(dataPair.getFace().getV2().multiply( 1.0f / dataPair.getFace().getV2().getW()));
         Vec4 v3ViewPortNew = viewMatrix.multiply(dataPair.getFace().getV3().multiply( 1.0f / dataPair.getFace().getV3().getW()));
@@ -29,7 +33,6 @@ public class ViewportTransformation implements IFilter<DataPair, DataPair>{
 
         DataPair newDataPair = new DataPair(newFace, dataPair.getColor());
 
-        this.successor.write(newDataPair);
-
+        return newDataPair;
     }
 }

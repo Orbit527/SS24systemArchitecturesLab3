@@ -28,7 +28,11 @@ public class Lighting implements IFilter <DataPair, DataPair>{
 
     @Override
     public void write(DataPair dp) {
+        successor.write(process(dp));
+    }
 
+    @Override
+    public DataPair process(DataPair dp) {
         if (this.isPerformLighting == true) {
 
             double factor = lightPos.getUnitVector().dot(dp.getFace().getN1().getUnitVector().toVec3());
@@ -45,9 +49,8 @@ public class Lighting implements IFilter <DataPair, DataPair>{
 
             DataPair newDataPair = new DataPair(dp.getFace(), newColor);
 
-            this.successor.write(newDataPair);
-        } else {
-            this.successor.write(dp);
+            return newDataPair;
         }
+            return dp;
     }
 }

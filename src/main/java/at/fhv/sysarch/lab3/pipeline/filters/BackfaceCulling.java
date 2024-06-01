@@ -15,12 +15,18 @@ public class BackfaceCulling implements IFilter<Optional<Face>, Optional<Face>>{
 
     @Override
     public void write(Optional<Face> f) {
+        Optional.ofNullable(process(f)).ifPresent(successor::write);
+    }
+
+    @Override
+    public Optional<Face> process(Optional<Face> f) {
         if (f.isPresent()) {
             if (f.get().getV1().dot(f.get().getN1()) <= 0) {
-                successor.write(f);
+                return f;
             }
         } else {
-            successor.write(Optional.empty());
+            return Optional.empty();
         }
+        return null;
     }
 }

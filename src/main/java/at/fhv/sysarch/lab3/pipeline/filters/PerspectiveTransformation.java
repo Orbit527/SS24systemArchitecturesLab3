@@ -22,7 +22,11 @@ public class PerspectiveTransformation  implements IFilter<DataPair, DataPair> {
 
     @Override
     public void write(DataPair dp) {
+        successor.write(process(dp));
+    }
 
+    @Override
+    public DataPair process(DataPair dp) {
         Vec4 v1ViewPort = projMatrix.multiply(dp.getFace().getV1());
         Vec4 v2ViewPort = projMatrix.multiply(dp.getFace().getV2());
         Vec4 v3ViewPort = projMatrix.multiply(dp.getFace().getV3());
@@ -31,6 +35,6 @@ public class PerspectiveTransformation  implements IFilter<DataPair, DataPair> {
 
         DataPair newDataPair = new DataPair(newFace, dp.getColor());
 
-        this.successor.write(newDataPair);
+        return newDataPair;
     }
 }

@@ -23,8 +23,13 @@ public class Coloring implements IFilter<Optional<Face>, DataPair>{
     @Override
     public void write(Optional<Face> face) {
         if (face.isPresent()) {
-            DataPair dataPair = new DataPair(face.get(), color);
-            this.successor.write(dataPair);
+            successor.write(process(face));
         }
+    }
+
+    @Override
+    public DataPair process(Optional<Face> face) {
+            DataPair dataPair = new DataPair(face.get(), color);
+            return dataPair;
     }
 }

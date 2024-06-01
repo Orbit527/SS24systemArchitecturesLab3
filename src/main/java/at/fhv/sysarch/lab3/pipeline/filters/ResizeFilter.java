@@ -6,6 +6,7 @@ import com.hackoeur.jglm.Matrices;
 import com.hackoeur.jglm.Vec3;
 
 import java.util.Optional;
+import java.util.OptionalInt;
 
 public class ResizeFilter implements IFilter<Optional<Face>, Optional<Face>> {
 
@@ -24,12 +25,16 @@ public class ResizeFilter implements IFilter<Optional<Face>, Optional<Face>> {
 
     @Override
     public void write(Optional<Face> face) {
+        successor.write(process(face));
+    }
 
+    @Override
+    public Optional<Face> process(Optional<Face> face) {
         if (face.isPresent()) {
             Face newFace = new Face(face.get().getV1().multiply(size), face.get().getV2().multiply(size), face.get().getV3().multiply(size), face.get());
-            this.successor.write(Optional.of(newFace));
+            return Optional.of(newFace);
         } else {
-            successor.write(Optional.empty());
+            return Optional.empty();
         }
     }
 }

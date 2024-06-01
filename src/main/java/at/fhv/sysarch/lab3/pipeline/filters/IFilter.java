@@ -5,4 +5,6 @@ public interface IFilter<I, O> {
     public void setSuccessor(IFilter<O,?> successor);
 
     public void write(I input);
+
+    public O process(I input);
 }

@@ -22,7 +22,11 @@ public class ModelViewTransformation implements IFilter<Optional<Face>, Optional
 
     @Override
     public void write(Optional<Face> f) {
+        successor.write(process(f));
+    }
 
+    @Override
+    public Optional<Face> process(Optional<Face> f) {
         if (f.isPresent()) {
             Vec4 v1new = transMatrix.multiply(f.get().getV1());
             Vec4 v2new = transMatrix.multiply(f.get().getV2());
@@ -34,10 +38,10 @@ public class ModelViewTransformation implements IFilter<Optional<Face>, Optional
 
             Face transFace = new Face(v1new, v2new, v3new, v1NormalNew, v2NormalNew, v3NormalNew);
 
-            successor.write(Optional.of(transFace));
+            return Optional.of(transFace);
 
         } else {
-            successor.write(Optional.empty());
+            return Optional.empty();
         }
     }
 }

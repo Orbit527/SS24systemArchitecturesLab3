@@ -30,4 +30,10 @@ public class SourceSingle implements IFilter<Model, Optional<Face>> {
 
         successor.write(Optional.empty());
     }
+
+    @Override
+    public Optional<Face> process(Model input) {
+        // NOT IMPLEMENTED
+        return Optional.empty();
+    }
 }

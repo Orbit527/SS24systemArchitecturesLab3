@@ -18,17 +18,25 @@ public class DepthSorting implements IFilter<Optional<Face>, Optional<Face>> {
 
     @Override
     public void write(Optional<Face> face) {
-
-        if (face.isPresent()) {
-            faces.add(face.get());
-        } else {
-            faces.sort(Comparator.comparingDouble((Face f) -> f.getV1().getZ()));
-
+        if (process(face) != null) {
             for (Face f : faces) {
                 successor.write(Optional.of(f));
             }
             faces.clear();
-
         }
+
+    }
+
+
+    @Override
+    public Optional<Face> process(Optional<Face> face) {
+        if (face.isPresent()) {
+            faces.add(face.get());
+            return null;
+        } else {
+            faces.sort(Comparator.comparingDouble((Face f) -> f.getV1().getZ()));
+            return face;
+        }
+
     }
 }
