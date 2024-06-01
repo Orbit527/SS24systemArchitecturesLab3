@@ -1,6 +1,7 @@
 package at.fhv.sysarch.lab3.pipeline.filters;
 
 import at.fhv.sysarch.lab3.obj.Face;
+import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 import javafx.scene.paint.Color;
 
 import java.util.Optional;
@@ -8,7 +9,7 @@ import java.util.Optional;
 public class Coloring implements IFilter<Optional<Face>, DataPair>{
 
 
-    private IFilter<DataPair, ?> successor;
+    private Pipe<DataPair> successor;
     private final Color color;
 
     public Coloring(Color color) {
@@ -16,7 +17,7 @@ public class Coloring implements IFilter<Optional<Face>, DataPair>{
     }
 
     @Override
-    public void setSuccessor(IFilter<DataPair, ?> successor) {
+    public void setSuccessor(Pipe<DataPair> successor) {
         this.successor = successor;
     }
 

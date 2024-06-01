@@ -1,6 +1,7 @@
 package at.fhv.sysarch.lab3.pipeline.filters;
 
 import at.fhv.sysarch.lab3.obj.Face;
+import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -8,11 +9,11 @@ import java.util.Optional;
 
 public class DepthSorting implements IFilter<Optional<Face>, Optional<Face>> {
 
-    private IFilter<Optional<Face>, ?> successor;
+    private Pipe<Optional<Face>> successor;
     private ArrayList<Face> faces = new ArrayList<>();
 
     @Override
-    public void setSuccessor(IFilter<Optional<Face>, ?> r) {
+    public void setSuccessor(Pipe<Optional<Face>> r) {
         this.successor = r;
     }
 

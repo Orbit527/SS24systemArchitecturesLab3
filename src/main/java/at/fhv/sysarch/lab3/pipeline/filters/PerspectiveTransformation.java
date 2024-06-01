@@ -1,6 +1,7 @@
 package at.fhv.sysarch.lab3.pipeline.filters;
 
 import at.fhv.sysarch.lab3.obj.Face;
+import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 import com.hackoeur.jglm.Mat4;
 import com.hackoeur.jglm.Vec4;
 
@@ -8,7 +9,7 @@ import javax.xml.crypto.Data;
 
 public class PerspectiveTransformation  implements IFilter<DataPair, DataPair> {
 
-    private IFilter<DataPair, ?> successor;
+    private Pipe<DataPair> successor;
     private Mat4 projMatrix;
 
     public void setProjMatrix(Mat4 matrix) {
@@ -16,7 +17,7 @@ public class PerspectiveTransformation  implements IFilter<DataPair, DataPair> {
     }
 
     @Override
-    public void setSuccessor(IFilter<DataPair, ?> successor) {
+    public void setSuccessor(Pipe<DataPair> successor) {
         this.successor = successor;
     }
 

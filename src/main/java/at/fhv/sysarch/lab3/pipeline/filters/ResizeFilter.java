@@ -2,6 +2,7 @@ package at.fhv.sysarch.lab3.pipeline.filters;
 
 import at.fhv.sysarch.lab3.obj.Face;
 import at.fhv.sysarch.lab3.pipeline.PipelineData;
+import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 import com.hackoeur.jglm.Matrices;
 import com.hackoeur.jglm.Vec3;
 
@@ -10,7 +11,7 @@ import java.util.OptionalInt;
 
 public class ResizeFilter implements IFilter<Optional<Face>, Optional<Face>> {
 
-    private IFilter<Optional<Face>, ?> successor;
+    private Pipe<Optional<Face>> successor;
 
     private int size;
 
@@ -19,7 +20,7 @@ public class ResizeFilter implements IFilter<Optional<Face>, Optional<Face>> {
     }
 
     @Override
-    public void setSuccessor(IFilter<Optional<Face>, ?> r) {
+    public void setSuccessor(Pipe<Optional<Face>> r) {
         this.successor = r;
     }
 

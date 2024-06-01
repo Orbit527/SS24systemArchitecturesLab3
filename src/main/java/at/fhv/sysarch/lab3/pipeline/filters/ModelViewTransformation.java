@@ -1,6 +1,7 @@
 package at.fhv.sysarch.lab3.pipeline.filters;
 
 import at.fhv.sysarch.lab3.obj.Face;
+import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 import com.hackoeur.jglm.Mat4;
 import com.hackoeur.jglm.Vec4;
 
@@ -8,7 +9,7 @@ import java.util.Optional;
 
 public class ModelViewTransformation implements IFilter<Optional<Face>, Optional<Face>> {
 
-    private IFilter<Optional<Face>, ?> successor;
+    private Pipe<Optional<Face>> successor;
     private Mat4 transMatrix;
 
     public void setTransMatrix(Mat4 matrix) {
@@ -16,7 +17,7 @@ public class ModelViewTransformation implements IFilter<Optional<Face>, Optional
     }
 
     @Override
-    public void setSuccessor(IFilter successor) {
+    public void setSuccessor(Pipe successor) {
         this.successor = successor;
     }
 

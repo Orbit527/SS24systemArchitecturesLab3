@@ -1,12 +1,13 @@
 package at.fhv.sysarch.lab3.pipeline.filters;
 
 import at.fhv.sysarch.lab3.obj.Face;
+import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 import com.hackoeur.jglm.Mat4;
 import com.hackoeur.jglm.Vec4;
 
 public class ViewportTransformation implements IFilter<DataPair, DataPair>{
 
-    private IFilter<DataPair, ?> successor;
+    private Pipe<DataPair> successor;
     private Mat4 viewMatrix;
 
     public void setViewMatrix(Mat4 matrix) {
@@ -14,7 +15,7 @@ public class ViewportTransformation implements IFilter<DataPair, DataPair>{
     }
 
     @Override
-    public void setSuccessor(IFilter<DataPair, ?> successor) {
+    public void setSuccessor(Pipe<DataPair> successor) {
         this.successor = successor;
     }
 

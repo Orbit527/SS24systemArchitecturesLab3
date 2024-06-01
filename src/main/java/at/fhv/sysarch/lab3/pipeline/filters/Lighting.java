@@ -1,6 +1,7 @@
 package at.fhv.sysarch.lab3.pipeline.filters;
 
 import at.fhv.sysarch.lab3.obj.Face;
+import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 import at.fhv.sysarch.lab3.rendering.RenderingMode;
 import com.hackoeur.jglm.Matrices;
 import com.hackoeur.jglm.Vec3;
@@ -8,7 +9,7 @@ import javafx.scene.paint.Color;
 
 public class Lighting implements IFilter <DataPair, DataPair>{
 
-    private IFilter<DataPair, ?> successor;
+    private Pipe<DataPair> successor;
 
     private Vec3 lightPos;
     private Boolean isPerformLighting = false;
@@ -22,7 +23,7 @@ public class Lighting implements IFilter <DataPair, DataPair>{
     }
 
     @Override
-    public void setSuccessor(IFilter<DataPair, ?> successor) {
+    public void setSuccessor(Pipe<DataPair> successor) {
         this.successor = successor;
     }
 

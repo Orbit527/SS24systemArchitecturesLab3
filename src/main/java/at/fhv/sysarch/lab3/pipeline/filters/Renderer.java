@@ -1,5 +1,6 @@
 package at.fhv.sysarch.lab3.pipeline.filters;
 
+import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 import at.fhv.sysarch.lab3.rendering.RenderingMode;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -14,7 +15,7 @@ public class Renderer implements IFilter<DataPair, DataPair>{
     }
 
     @Override
-    public void setSuccessor(IFilter<DataPair, ?> successor) {
+    public void setSuccessor(Pipe<DataPair> successor) {
         // NOT IMPLEMENTED
     }
 

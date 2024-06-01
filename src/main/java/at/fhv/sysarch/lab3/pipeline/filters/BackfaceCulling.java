@@ -1,15 +1,16 @@
 package at.fhv.sysarch.lab3.pipeline.filters;
 
 import at.fhv.sysarch.lab3.obj.Face;
+import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 import com.hackoeur.jglm.Matrices;
 
 import java.util.Optional;
 
 public class BackfaceCulling implements IFilter<Optional<Face>, Optional<Face>>{
 
-    private IFilter<Optional<Face>, ?> successor;
+    private Pipe<Optional<Face>> successor;
     @Override
-    public void setSuccessor(IFilter<Optional<Face>, ?> successor) {
+    public void setSuccessor(Pipe<Optional<Face>> successor) {
         this.successor = successor;
     }
 
