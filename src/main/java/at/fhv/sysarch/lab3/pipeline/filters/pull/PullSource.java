@@ -4,21 +4,24 @@ import at.fhv.sysarch.lab3.obj.Face;
 import at.fhv.sysarch.lab3.obj.Model;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 public class PullSource implements PullFilter<Model, Optional<Face>> {
     private Iterator<Face> iterator;
+    private List<Face> faces;
 
     private Model model;
 
     public void setModel(Model model) {
         this.model = model;
+        this.faces = model.getFaces();
         setFaceIterator();
 
     }
 
     private void setFaceIterator() {
-        this.iterator = this.model.getFaces().iterator();
+        this.iterator = faces.iterator();
     }
 
     @Override
@@ -29,14 +32,9 @@ public class PullSource implements PullFilter<Model, Optional<Face>> {
     @Override
     public Optional<Face> read() {
 
-
-        if (iterator != null && iterator.hasNext()) {
-
-            //System.out.println("READ!!");
+        if (iterator.hasNext()) {
             return Optional.of(iterator.next());
         } else {
-
-            //System.out.println("NO MORE FACES");
             setFaceIterator();
             return Optional.empty();
         }
