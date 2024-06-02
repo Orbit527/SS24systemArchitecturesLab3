@@ -27,6 +27,10 @@ public class PullViewportTransformation implements PullFilter<Optional<DataPair>
         Optional<DataPair> dp = predecessor.read();
         if (dp.isPresent()) {
 
+            if (dp.get().getFace() instanceof MarkedFace) {
+                return dp;
+            }
+
             Vec4 v1ViewPortNew = viewMatrix.multiply(dp.get().getFace().getV1().multiply( 1.0f / dp.get().getFace().getV1().getW()));
             Vec4 v2ViewPortNew = viewMatrix.multiply(dp.get().getFace().getV2().multiply( 1.0f / dp.get().getFace().getV2().getW()));
             Vec4 v3ViewPortNew = viewMatrix.multiply(dp.get().getFace().getV3().multiply( 1.0f / dp.get().getFace().getV3().getW()));

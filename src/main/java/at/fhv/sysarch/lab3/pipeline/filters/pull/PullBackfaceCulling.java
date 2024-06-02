@@ -17,11 +17,16 @@ public class PullBackfaceCulling implements PullFilter<Optional<Face>, Optional<
     public Optional<Face> read() {
         Optional<Face> face = predecessor.read();
         if (face.isPresent()) {
-            //if (face.get().getV1().dot(face.get().getN1()) <= 0) {
+
+            if (face.get() instanceof MarkedFace) {
                 return face;
-            //} else {
-            //    return Optional.empty();
-            //}
+            }
+
+            if (face.get().getV1().dot(face.get().getN1()) <= 0) {
+                return face;
+            } else {
+                return Optional.empty();
+            }
 
             //Face newFace = new Face(face.get().getV1().multiply(size) , face.get().getV2().multiply(size), face.get().getV3().multiply(size), face.get());
 

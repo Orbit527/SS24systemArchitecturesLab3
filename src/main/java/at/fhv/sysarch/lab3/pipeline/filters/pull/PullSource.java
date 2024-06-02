@@ -36,7 +36,7 @@ public class PullSource implements PullFilter<Model, Optional<Face>> {
             return Optional.of(iterator.next());
         } else {
             setFaceIterator();
-            return Optional.empty();
+            return Optional.of(new MarkedFace(iterator.next()));
         }
 
     }

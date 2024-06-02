@@ -25,7 +25,9 @@ public class PullResizeFilter implements PullFilter<Optional<Face>, Optional<Fac
 
         Optional<Face> face = predecessor.read();
         if (face.isPresent()) {
-
+            if (face.get() instanceof MarkedFace) {
+                return face;
+            }
 
             Face newFace = new Face(face.get().getV1().multiply(size) , face.get().getV2().multiply(size), face.get().getV3().multiply(size), face.get());
 

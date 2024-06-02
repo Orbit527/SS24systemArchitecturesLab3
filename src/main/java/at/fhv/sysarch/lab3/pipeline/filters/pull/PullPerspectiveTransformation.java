@@ -28,7 +28,9 @@ public class PullPerspectiveTransformation implements PullFilter<Optional<DataPa
         Optional<DataPair> dp = predecessor.read();
         if (dp.isPresent()) {
 
-
+            if (dp.get().getFace() instanceof MarkedFace) {
+                return dp;
+            }
 
             Vec4 v1ViewPort = projMatrix.multiply(dp.get().getFace().getV1());
             Vec4 v2ViewPort = projMatrix.multiply(dp.get().getFace().getV2());

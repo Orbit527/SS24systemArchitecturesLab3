@@ -25,6 +25,10 @@ public class PullModelViewTransformation implements PullFilter<Optional<Face>, O
         Optional<Face> face = predecessor.read();
         if (face.isPresent()) {
 
+            if (face.get() instanceof MarkedFace) {
+                return face;
+            }
+
             Vec4 v1new = transMatrix.multiply(face.get().getV1());
             Vec4 v2new = transMatrix.multiply(face.get().getV2());
             Vec4 v3new = transMatrix.multiply(face.get().getV3());
