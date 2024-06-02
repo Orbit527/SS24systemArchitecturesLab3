@@ -24,9 +24,7 @@ public class PullDepthSorting implements PullFilter<Optional<Face>, Optional<Fac
                 return face;
             }
 
-
-
-            //Face newFace = new Face(face.get().getV1().multiply(size) , face.get().getV2().multiply(size), face.get().getV3().multiply(size), face.get());
+            //TODO: implement
 
             return face;
 

@@ -41,7 +41,6 @@ public class PullModelViewTransformation implements PullFilter<Optional<Face>, O
 
             return Optional.of(transFace);
 
-            // Apply transformation logic here
         }
         return Optional.empty();
     }

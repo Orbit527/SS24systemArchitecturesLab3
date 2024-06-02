@@ -33,7 +33,6 @@ public class PullResizeFilter implements PullFilter<Optional<Face>, Optional<Fac
 
             return Optional.of(newFace);
 
-            // Apply transformation logic here
         }
         return Optional.empty();
 
