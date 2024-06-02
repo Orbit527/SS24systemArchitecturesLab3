@@ -1,4 +1,4 @@
-package at.fhv.sysarch.lab3.pipeline.filters;
+package at.fhv.sysarch.lab3.pipeline.filters.push;
 
 import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 import at.fhv.sysarch.lab3.rendering.RenderingMode;

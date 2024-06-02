@@ -1,11 +1,9 @@
-package at.fhv.sysarch.lab3.pipeline.filters;
+package at.fhv.sysarch.lab3.pipeline.filters.push;
 
 import at.fhv.sysarch.lab3.obj.Face;
 import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 import com.hackoeur.jglm.Mat4;
 import com.hackoeur.jglm.Vec4;
-
-import javax.xml.crypto.Data;
 
 public class PerspectiveTransformation  implements IFilter<DataPair, DataPair> {
 

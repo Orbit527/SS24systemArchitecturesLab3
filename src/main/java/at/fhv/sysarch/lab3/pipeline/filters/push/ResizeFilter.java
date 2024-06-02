@@ -1,13 +1,9 @@
-package at.fhv.sysarch.lab3.pipeline.filters;
+package at.fhv.sysarch.lab3.pipeline.filters.push;
 
 import at.fhv.sysarch.lab3.obj.Face;
-import at.fhv.sysarch.lab3.pipeline.PipelineData;
 import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
-import com.hackoeur.jglm.Matrices;
-import com.hackoeur.jglm.Vec3;
 
 import java.util.Optional;
-import java.util.OptionalInt;
 
 public class ResizeFilter implements IFilter<Optional<Face>, Optional<Face>> {
 

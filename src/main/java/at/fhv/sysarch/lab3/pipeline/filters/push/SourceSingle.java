@@ -1,13 +1,9 @@
-package at.fhv.sysarch.lab3.pipeline.filters;
+package at.fhv.sysarch.lab3.pipeline.filters.push;
 
 import at.fhv.sysarch.lab3.obj.Face;
 import at.fhv.sysarch.lab3.obj.Model;
 import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
-import com.hackoeur.jglm.Mat4;
-import com.hackoeur.jglm.Matrices;
-import com.hackoeur.jglm.Vec4;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 

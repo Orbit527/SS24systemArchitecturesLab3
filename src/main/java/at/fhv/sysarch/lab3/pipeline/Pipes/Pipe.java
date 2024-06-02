@@ -1,9 +1,6 @@
 package at.fhv.sysarch.lab3.pipeline.Pipes;
 
-import at.fhv.sysarch.lab3.obj.Face;
-import at.fhv.sysarch.lab3.pipeline.filters.IFilter;
-
-import java.util.Optional;
+import at.fhv.sysarch.lab3.pipeline.filters.push.IFilter;
 
 public class Pipe<I> {
     private IFilter<I, ?> successor;

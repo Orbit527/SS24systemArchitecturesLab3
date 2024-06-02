@@ -1,10 +1,9 @@
-package at.fhv.sysarch.lab3.pipeline.filters;
+package at.fhv.sysarch.lab3.pipeline.filters.pull;
 
 import at.fhv.sysarch.lab3.obj.Face;
 import at.fhv.sysarch.lab3.obj.Model;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Optional;
 
 public class PullSource implements PullFilter<Model, Optional<Face>> {

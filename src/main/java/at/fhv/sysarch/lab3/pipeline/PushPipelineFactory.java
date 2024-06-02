@@ -4,11 +4,9 @@ import at.fhv.sysarch.lab3.animation.AnimationRenderer;
 import at.fhv.sysarch.lab3.obj.Face;
 import at.fhv.sysarch.lab3.obj.Model;
 import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
-import at.fhv.sysarch.lab3.pipeline.filters.*;
+import at.fhv.sysarch.lab3.pipeline.filters.push.*;
 import com.hackoeur.jglm.Mat4;
 import com.hackoeur.jglm.Matrices;
-import com.hackoeur.jglm.Vec3;
-import com.hackoeur.jglm.Vec4;
 import javafx.animation.AnimationTimer;
 
 import java.util.Optional;

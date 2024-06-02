@@ -2,9 +2,9 @@ package at.fhv.sysarch.lab3.pipeline;
 
 import at.fhv.sysarch.lab3.animation.AnimationRenderer;
 import at.fhv.sysarch.lab3.obj.Model;
-import at.fhv.sysarch.lab3.pipeline.filters.PullRenderer;
-import at.fhv.sysarch.lab3.pipeline.filters.PullSource;
-import at.fhv.sysarch.lab3.pipeline.filters.PullModelViewTransformation;
+import at.fhv.sysarch.lab3.pipeline.filters.pull.PullRenderer;
+import at.fhv.sysarch.lab3.pipeline.filters.pull.PullSource;
+import at.fhv.sysarch.lab3.pipeline.filters.pull.PullModelViewTransformation;
 import com.hackoeur.jglm.Mat4;
 import com.hackoeur.jglm.Matrices;
 import javafx.animation.AnimationTimer;
