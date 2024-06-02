@@ -2,11 +2,14 @@ package at.fhv.sysarch.lab3.pipeline.filters.pull;
 
 import at.fhv.sysarch.lab3.obj.Face;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class PullDepthSorting implements PullFilter<Optional<Face>, Optional<Face>>{
 
     private PullFilter<Optional<Face>, Optional<Face>> predecessor;
+
+    private ArrayList<Face> faces = new ArrayList<>();
 
     @Override
     public void setPredecessor(PullFilter<?, Optional<Face>> predecessor) {
@@ -20,6 +23,8 @@ public class PullDepthSorting implements PullFilter<Optional<Face>, Optional<Fac
             if (face.get() instanceof MarkedFace) {
                 return face;
             }
+
+
 
             //Face newFace = new Face(face.get().getV1().multiply(size) , face.get().getV2().multiply(size), face.get().getV3().multiply(size), face.get());
 

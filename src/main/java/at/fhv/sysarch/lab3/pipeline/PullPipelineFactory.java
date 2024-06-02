@@ -20,6 +20,7 @@ public class PullPipelineFactory {
         PullDepthSorting depthSorting = new PullDepthSorting();
 
         PullColoring coloring = new PullColoring(pd.getModelColor());
+        PullLighting lighting = new PullLighting(pd.getLightPos());
 
         PullPerspectiveTransformation persTrans = new PullPerspectiveTransformation();
         PullViewportTransformation viewTrans = new PullViewportTransformation();
@@ -36,8 +37,9 @@ public class PullPipelineFactory {
         depthSorting.setPredecessor(backface);
 
         coloring.setPredecessor(depthSorting);
+        lighting.setPredecessor(coloring);
 
-        persTrans.setPredecessor(coloring);
+        persTrans.setPredecessor(lighting);
         viewTrans.setPredecessor(persTrans);
         renderer.setPredecessor(viewTrans);
 
@@ -52,7 +54,9 @@ public class PullPipelineFactory {
         // lighting can be switched on/off
         if (pd.isPerformLighting()) {
             // 4a. TODO perform lighting in VIEW SPACE
-            
+            lighting.setPerformLighting(true);
+
+
             // 5. TODO perform projection transformation on VIEW SPACE coordinates
         } else {
             // 5. TODO perform projection transformation
