@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.Optional;
 
 public class PullSource implements PullFilter<Model, Optional<Face>> {
-    private Iterator<Face> faceIterator;
+    private Iterator<Face> iterator;
 
     private Model model;
 
@@ -18,7 +18,7 @@ public class PullSource implements PullFilter<Model, Optional<Face>> {
     }
 
     private void setFaceIterator() {
-        this.faceIterator = this.model.getFaces().iterator();
+        this.iterator = this.model.getFaces().iterator();
     }
 
     @Override
@@ -30,12 +30,16 @@ public class PullSource implements PullFilter<Model, Optional<Face>> {
     public Optional<Face> read() {
 
 
-        if (faceIterator != null && faceIterator.hasNext()) {
+        if (iterator != null && iterator.hasNext()) {
 
             //System.out.println("READ!!");
-            return Optional.of(faceIterator.next());
+            return Optional.of(iterator.next());
+        } else {
+
+            //System.out.println("NO MORE FACES");
+            setFaceIterator();
+            return Optional.empty();
         }
-        setFaceIterator();
-        return Optional.empty();
+
     }
 }

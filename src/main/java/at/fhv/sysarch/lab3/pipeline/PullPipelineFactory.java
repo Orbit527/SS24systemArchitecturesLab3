@@ -2,9 +2,7 @@ package at.fhv.sysarch.lab3.pipeline;
 
 import at.fhv.sysarch.lab3.animation.AnimationRenderer;
 import at.fhv.sysarch.lab3.obj.Model;
-import at.fhv.sysarch.lab3.pipeline.filters.pull.PullRenderer;
-import at.fhv.sysarch.lab3.pipeline.filters.pull.PullSource;
-import at.fhv.sysarch.lab3.pipeline.filters.pull.PullModelViewTransformation;
+import at.fhv.sysarch.lab3.pipeline.filters.pull.*;
 import com.hackoeur.jglm.Mat4;
 import com.hackoeur.jglm.Matrices;
 import javafx.animation.AnimationTimer;
@@ -16,12 +14,32 @@ public class PullPipelineFactory {
         Model model = pd.getModel();
 
         PullSource source = new PullSource();
+        PullResizeFilter resizeFilter = new PullResizeFilter(1);
         PullModelViewTransformation trans = new PullModelViewTransformation();
+        PullBackfaceCulling backface = new PullBackfaceCulling();
+        PullDepthSorting depthSorting = new PullDepthSorting();
+
+        PullColoring coloring = new PullColoring(pd.getModelColor());
+
+        PullPerspectiveTransformation persTrans = new PullPerspectiveTransformation();
+        PullViewportTransformation viewTrans = new PullViewportTransformation();
         PullRenderer renderer = new PullRenderer(pd.getGraphicsContext(), pd.getRenderingMode());
 
+
+
+
         source.setModel(model);
-        trans.setPredecessor(source);
-        renderer.setPredecessor(trans);
+        resizeFilter.setPredecessor(source);
+        trans.setPredecessor(resizeFilter);
+
+        backface.setPredecessor(trans);
+        depthSorting.setPredecessor(backface);
+
+        coloring.setPredecessor(depthSorting);
+
+        persTrans.setPredecessor(coloring);
+        viewTrans.setPredecessor(persTrans);
+        renderer.setPredecessor(viewTrans);
 
         // TODO 1. perform model-view transformation from model to VIEW SPACE coordinates
 
@@ -71,6 +89,8 @@ public class PullPipelineFactory {
 
                 // set additional matrices for filters
                 trans.setTransMatrix(viewTransMat);
+                persTrans.setProjMatrix(pd.getProjTransform());
+                viewTrans.setViewMatrix(pd.getViewportTransform());
                 //TODO: others
 
                 // trigger rendering of the pipeline
