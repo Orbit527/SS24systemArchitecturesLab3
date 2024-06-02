@@ -2,11 +2,26 @@ package at.fhv.sysarch.lab3.pipeline;
 
 import at.fhv.sysarch.lab3.animation.AnimationRenderer;
 import at.fhv.sysarch.lab3.obj.Model;
+import at.fhv.sysarch.lab3.pipeline.filters.PullRenderer;
+import at.fhv.sysarch.lab3.pipeline.filters.PullSource;
+import at.fhv.sysarch.lab3.pipeline.filters.PullModelViewTransformation;
+import com.hackoeur.jglm.Mat4;
+import com.hackoeur.jglm.Matrices;
 import javafx.animation.AnimationTimer;
 
 public class PullPipelineFactory {
     public static AnimationTimer createPipeline(PipelineData pd) {
         // TODO: pull from the source (model)
+
+        Model model = pd.getModel();
+
+        PullSource source = new PullSource();
+        PullModelViewTransformation trans = new PullModelViewTransformation();
+        PullRenderer renderer = new PullRenderer(pd.getGraphicsContext(), pd.getRenderingMode());
+
+        source.setModel(model);
+        trans.setPredecessor(source);
+        renderer.setPredecessor(trans);
 
         // TODO 1. perform model-view transformation from model to VIEW SPACE coordinates
 
@@ -32,7 +47,8 @@ public class PullPipelineFactory {
         // returning an animation renderer which handles clearing of the
         // viewport and computation of the praction
         return new AnimationRenderer(pd) {
-            // TODO rotation variable goes in here
+
+            private float rotation = 0;
 
             /** This method is called for every frame from the JavaFX Animation
              * system (using an AnimationTimer, see AnimationRenderer). 
@@ -41,15 +57,24 @@ public class PullPipelineFactory {
              */
             @Override
             protected void render(float fraction, Model model) {
-                // TODO compute rotation in radians
+                // compute rotation in radians
+                rotation += fraction * 1;
 
-                // TODO create new model rotation matrix using pd.getModelRotAxis and Matrices.rotate
+                //  create new model rotation matrix using pd.getModelRotAxis and Matrices.rotate
+                Mat4 rotMat = Matrices.rotate(rotation, pd.getModelRotAxis());
 
-                // TODO compute updated model-view tranformation
+                //  compute updated model-view tranformation
+                Mat4 modelTransMat = pd.getModelTranslation().multiply(rotMat);
 
-                // TODO update model-view filter
+                // update model-view filter
+                Mat4 viewTransMat = pd.getViewTransform().multiply(modelTransMat);
 
-                // TODO trigger rendering of the pipeline
+                // set additional matrices for filters
+                trans.setTransMatrix(viewTransMat);
+                //TODO: others
+
+                // trigger rendering of the pipeline
+                renderer.read();
             }
         };
     }
