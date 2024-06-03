@@ -1,6 +1,7 @@
 package at.fhv.sysarch.lab3.pipeline.filters.pull;
 
 import at.fhv.sysarch.lab3.obj.Face;
+import at.fhv.sysarch.lab3.pipeline.Pipes.PullPipe;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -8,7 +9,7 @@ import java.util.Optional;
 
 public class PullDepthSorting implements PullFilter<Optional<Face>, Optional<Face>>{
 
-    private PullFilter<Optional<Face>, Optional<Face>> predecessor;
+    private PullPipe<Optional<Face>> predecessor;
 
     private ArrayList<Face> faces = new ArrayList<>();
     private ArrayList<Face> depthSortedFaces = new ArrayList<>();
@@ -17,8 +18,8 @@ public class PullDepthSorting implements PullFilter<Optional<Face>, Optional<Fac
     private Face testFace;
 
     @Override
-    public void setPredecessor(PullFilter<?, Optional<Face>> predecessor) {
-        this.predecessor = (PullFilter<Optional<Face>, Optional<Face>>) predecessor;
+    public void setPredecessor(PullPipe<Optional<Face>> predecessor) {
+        this.predecessor = predecessor;
     }
 
     @Override

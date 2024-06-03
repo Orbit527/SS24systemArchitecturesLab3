@@ -1,6 +1,7 @@
 package at.fhv.sysarch.lab3.pipeline.filters.pull;
 
 import at.fhv.sysarch.lab3.obj.Face;
+import at.fhv.sysarch.lab3.pipeline.Pipes.PullPipe;
 import at.fhv.sysarch.lab3.pipeline.filters.push.DataPair;
 import com.hackoeur.jglm.Mat4;
 import com.hackoeur.jglm.Vec4;
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 public class PullViewportTransformation implements PullFilter<Optional<DataPair>, Optional<DataPair>>{
 
-    private PullFilter<Optional<DataPair>, Optional<DataPair>> predecessor;
+    private PullPipe<Optional<DataPair>> predecessor;
     private Mat4 viewMatrix;
 
     public void setViewMatrix(Mat4 matrix) {
@@ -18,8 +19,8 @@ public class PullViewportTransformation implements PullFilter<Optional<DataPair>
     }
 
     @Override
-    public void setPredecessor(PullFilter<?, Optional<DataPair>> predecessor) {
-        this.predecessor = (PullFilter<Optional<DataPair>, Optional<DataPair>>) predecessor;
+    public void setPredecessor(PullPipe<Optional<DataPair>> predecessor) {
+        this.predecessor = predecessor;
     }
 
     @Override

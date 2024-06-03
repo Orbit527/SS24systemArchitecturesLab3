@@ -2,6 +2,7 @@ package at.fhv.sysarch.lab3.pipeline.filters.pull;
 
 import at.fhv.sysarch.lab3.obj.Face;
 import at.fhv.sysarch.lab3.obj.Model;
+import at.fhv.sysarch.lab3.pipeline.Pipes.PullPipe;
 
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +26,7 @@ public class PullSource implements PullFilter<Model, Optional<Face>> {
     }
 
     @Override
-    public void setPredecessor(PullFilter<?, Model> predecessor) {
+    public void setPredecessor(PullPipe<Model> predecessor) {
         // Source has no predecessor
     }
 

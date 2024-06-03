@@ -17,7 +17,7 @@ public class PushPipelineFactory {
 
         SourceSingle source = new SourceSingle();
         //TODO: size not setting correctly
-        ResizeFilter resizeFilter = new ResizeFilter(1);
+        ResizeFilter resizeFilter = new ResizeFilter(2);
         ModelViewTransformation trans = new ModelViewTransformation();
         BackfaceCulling backface = new BackfaceCulling();
         DepthSorting depthSorting = new DepthSorting();

@@ -1,11 +1,17 @@
 package at.fhv.sysarch.lab3.pipeline;
 
 import at.fhv.sysarch.lab3.animation.AnimationRenderer;
+import at.fhv.sysarch.lab3.obj.Face;
 import at.fhv.sysarch.lab3.obj.Model;
+import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
+import at.fhv.sysarch.lab3.pipeline.Pipes.PullPipe;
 import at.fhv.sysarch.lab3.pipeline.filters.pull.*;
+import at.fhv.sysarch.lab3.pipeline.filters.push.DataPair;
 import com.hackoeur.jglm.Mat4;
 import com.hackoeur.jglm.Matrices;
 import javafx.animation.AnimationTimer;
+
+import java.util.Optional;
 
 public class PullPipelineFactory {
     public static AnimationTimer createPipeline(PipelineData pd) {
@@ -26,22 +32,40 @@ public class PullPipelineFactory {
         PullViewportTransformation viewTrans = new PullViewportTransformation();
         PullRenderer renderer = new PullRenderer(pd.getGraphicsContext(), pd.getRenderingMode());
 
-
+        // Pipes
+        PullPipe<Optional<Face>> sourceResizeFilterPipe = new PullPipe<>();
+        PullPipe<Optional<Face>> resizeFilterTransPipe = new PullPipe<>();
+        PullPipe<Optional<Face>> transBackfacePipe = new PullPipe<>();
+        PullPipe<Optional<Face>> backfaceDepthSortingPipe = new PullPipe<>();
+        PullPipe<Optional<Face>> depthSortingColoringPipe = new PullPipe<>();
+        PullPipe<Optional<DataPair>> coloringLightingPipe = new PullPipe<>();
+        PullPipe<Optional<DataPair>> lightingPersTransPipe = new PullPipe<>();
+        PullPipe<Optional<DataPair>> persTransViewTransPipe = new PullPipe<>();
+        PullPipe<Optional<DataPair>> viewTransRendererPipe = new PullPipe<>();
 
 
         source.setModel(model);
-        resizeFilter.setPredecessor(source);
-        trans.setPredecessor(resizeFilter);
 
-        backface.setPredecessor(trans);
-        depthSorting.setPredecessor(backface);
 
-        coloring.setPredecessor(depthSorting);
-        lighting.setPredecessor(coloring);
-
-        persTrans.setPredecessor(lighting);
-        viewTrans.setPredecessor(persTrans);
-        renderer.setPredecessor(viewTrans);
+        source.setPredecessor(null);
+        resizeFilter.setPredecessor(sourceResizeFilterPipe);
+        sourceResizeFilterPipe.setPredecessor(source);
+        trans.setPredecessor(resizeFilterTransPipe);
+        resizeFilterTransPipe.setPredecessor(resizeFilter);
+        backface.setPredecessor(transBackfacePipe);
+        transBackfacePipe.setPredecessor(trans);
+        depthSorting.setPredecessor(backfaceDepthSortingPipe);
+        backfaceDepthSortingPipe.setPredecessor(backface);
+        coloring.setPredecessor(depthSortingColoringPipe);
+        depthSortingColoringPipe.setPredecessor(depthSorting);
+        lighting.setPredecessor(coloringLightingPipe);
+        coloringLightingPipe.setPredecessor(coloring);
+        persTrans.setPredecessor(lightingPersTransPipe);
+        lightingPersTransPipe.setPredecessor(lighting);
+        viewTrans.setPredecessor(persTransViewTransPipe);
+        persTransViewTransPipe.setPredecessor(persTrans);
+        renderer.setPredecessor(viewTransRendererPipe);
+        viewTransRendererPipe.setPredecessor(viewTrans);
 
         // TODO 1. perform model-view transformation from model to VIEW SPACE coordinates
 

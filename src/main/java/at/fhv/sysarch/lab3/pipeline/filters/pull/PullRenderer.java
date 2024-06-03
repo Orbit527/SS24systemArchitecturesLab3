@@ -1,6 +1,7 @@
 package at.fhv.sysarch.lab3.pipeline.filters.pull;
 
 import at.fhv.sysarch.lab3.obj.Face;
+import at.fhv.sysarch.lab3.pipeline.Pipes.PullPipe;
 import at.fhv.sysarch.lab3.pipeline.filters.push.DataPair;
 import at.fhv.sysarch.lab3.rendering.RenderingMode;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,7 +12,7 @@ import java.util.Optional;
 public class PullRenderer implements PullFilter<Optional<DataPair>, Void> {
     private final GraphicsContext gpc;
     private final RenderingMode renderingMode;
-    private PullFilter<Optional<DataPair>, Optional<DataPair>> predecessor;
+    private PullPipe<Optional<DataPair>> predecessor;
 
     public PullRenderer(GraphicsContext gpc, RenderingMode renderingMode) {
         this.gpc = gpc;
@@ -19,8 +20,8 @@ public class PullRenderer implements PullFilter<Optional<DataPair>, Void> {
     }
 
     @Override
-    public void setPredecessor(PullFilter<?, Optional<DataPair>> predecessor) {
-        this.predecessor = (PullFilter<Optional<DataPair>, Optional<DataPair>>) predecessor;
+    public void setPredecessor(PullPipe<Optional<DataPair>> predecessor) {
+        this.predecessor = predecessor;
     }
 
     @Override
