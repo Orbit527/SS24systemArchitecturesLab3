@@ -13,11 +13,10 @@ import java.util.Optional;
 
 public class PushPipelineFactory {
     public static AnimationTimer createPipeline(PipelineData pd) {
-        // TODO: push from the source (model)
+        // push from the source (model)
 
         SourceSingle source = new SourceSingle();
-        //TODO: size not setting correctly
-        ResizeFilter resizeFilter = new ResizeFilter(2);
+        ResizeFilter resizeFilter = new ResizeFilter(1);
         ModelViewTransformation trans = new ModelViewTransformation();
         BackfaceCulling backface = new BackfaceCulling();
         DepthSorting depthSorting = new DepthSorting();
@@ -37,7 +36,6 @@ public class PushPipelineFactory {
         Pipe<DataPair> lightingPersTransPipe = new Pipe<>();
         Pipe<DataPair> persTransViewTransPipe = new Pipe<>();
         Pipe<DataPair> viewTransRendererPipe = new Pipe<>();
-
 
 
         // perform model-view transformation from model to VIEW SPACE coordinates
@@ -66,12 +64,12 @@ public class PushPipelineFactory {
             // 4a. perform lighting in VIEW SPACE
             lighting.setPerformLighting(true);
 
-            // 5. TODO perform projection transformation on VIEW SPACE coordinates
+            // 5. perform projection transformation on VIEW SPACE coordinates
             persTrans.setSuccessor(persTransViewTransPipe);
             persTransViewTransPipe.setSuccessor(viewTrans);
 
         } else {
-            // 5. TODO perform projection transformation
+            // 5. perform projection transformation
             persTrans.setSuccessor(persTransViewTransPipe);
             persTransViewTransPipe.setSuccessor(viewTrans);
 
@@ -84,7 +82,6 @@ public class PushPipelineFactory {
         viewTrans.setSuccessor(viewTransRendererPipe);
         viewTransRendererPipe.setSuccessor(renderer);
 
-        // TODO 7. feed into the sink (renderer)
 
         // returning an animation renderer which handles clearing of the
         // viewport and computation of the praction
@@ -102,8 +99,6 @@ public class PushPipelineFactory {
 
                 // compute rotation in radians
                 rotation += fraction * 1;
-
-                // TODO: Diese drei vielleicht auslagern
 
                 // create new model rotation matrix using pd.modelRotAxis
                 Mat4 rotMat = Matrices.rotate(rotation, pd.getModelRotAxis());

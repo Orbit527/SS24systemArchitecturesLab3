@@ -15,19 +15,16 @@ import java.util.Optional;
 
 public class PullPipelineFactory {
     public static AnimationTimer createPipeline(PipelineData pd) {
-        // TODO: pull from the source (model)
+        // pull from the source (model)
 
         Model model = pd.getModel();
-
         PullSource source = new PullSource();
         PullResizeFilter resizeFilter = new PullResizeFilter(1);
         PullModelViewTransformation trans = new PullModelViewTransformation();
         PullBackfaceCulling backface = new PullBackfaceCulling();
         PullDepthSorting depthSorting = new PullDepthSorting();
-
         PullColoring coloring = new PullColoring(pd.getModelColor());
         PullLighting lighting = new PullLighting(pd.getLightPos());
-
         PullPerspectiveTransformation persTrans = new PullPerspectiveTransformation();
         PullViewportTransformation viewTrans = new PullViewportTransformation();
         PullRenderer renderer = new PullRenderer(pd.getGraphicsContext(), pd.getRenderingMode());
@@ -44,51 +41,49 @@ public class PullPipelineFactory {
         PullPipe<Optional<DataPair>> viewTransRendererPipe = new PullPipe<>();
 
 
+        // perform model-view transformation from model to VIEW SPACE coordinates
         source.setModel(model);
-
-
-        source.setPredecessor(null);
-        resizeFilter.setPredecessor(sourceResizeFilterPipe);
         sourceResizeFilterPipe.setPredecessor(source);
-        trans.setPredecessor(resizeFilterTransPipe);
+        resizeFilter.setPredecessor(sourceResizeFilterPipe);
         resizeFilterTransPipe.setPredecessor(resizeFilter);
-        backface.setPredecessor(transBackfacePipe);
+        trans.setPredecessor(resizeFilterTransPipe);
         transBackfacePipe.setPredecessor(trans);
-        depthSorting.setPredecessor(backfaceDepthSortingPipe);
+
+        // perform backface culling in VIEW SPACE
+        backface.setPredecessor(transBackfacePipe);
         backfaceDepthSortingPipe.setPredecessor(backface);
-        coloring.setPredecessor(depthSortingColoringPipe);
+
+        // perform depth sorting in VIEW SPACE
+        depthSorting.setPredecessor(backfaceDepthSortingPipe);
         depthSortingColoringPipe.setPredecessor(depthSorting);
-        lighting.setPredecessor(coloringLightingPipe);
+
+        // add coloring (space unimportant)
+        coloring.setPredecessor(depthSortingColoringPipe);
         coloringLightingPipe.setPredecessor(coloring);
-        persTrans.setPredecessor(lightingPersTransPipe);
-        lightingPersTransPipe.setPredecessor(lighting);
-        viewTrans.setPredecessor(persTransViewTransPipe);
-        persTransViewTransPipe.setPredecessor(persTrans);
-        renderer.setPredecessor(viewTransRendererPipe);
-        viewTransRendererPipe.setPredecessor(viewTrans);
-
-        // TODO 1. perform model-view transformation from model to VIEW SPACE coordinates
-
-        // TODO 2. perform backface culling in VIEW SPACE
-
-        // TODO 3. perform depth sorting in VIEW SPACE
-
-        // TODO 4. add coloring (space unimportant)
 
         // lighting can be switched on/off
         if (pd.isPerformLighting()) {
-            // 4a. TODO perform lighting in VIEW SPACE
+            // 4a. perform lighting in VIEW SPACE
             lighting.setPerformLighting(true);
 
-
-            // 5. TODO perform projection transformation on VIEW SPACE coordinates
+            // 5. perform projection transformation on VIEW SPACE coordinates
+            persTrans.setPredecessor(lightingPersTransPipe);
+            persTransViewTransPipe.setPredecessor(persTrans);
         } else {
-            // 5. TODO perform projection transformation
+            // 5. perform projection transformation
+            persTrans.setPredecessor(lightingPersTransPipe);
+            persTransViewTransPipe.setPredecessor(persTrans);
         }
 
-        // TODO 6. perform perspective division to screen coordinates
+        lighting.setPredecessor(coloringLightingPipe);
+        lightingPersTransPipe.setPredecessor(lighting);
 
-        // TODO 7. feed into the sink (renderer)
+        // perform perspective division to screen coordinates
+        viewTrans.setPredecessor(persTransViewTransPipe);
+        viewTransRendererPipe.setPredecessor(viewTrans);
+
+        // feed into the sink (renderer)
+        renderer.setPredecessor(viewTransRendererPipe);
 
         // returning an animation renderer which handles clearing of the
         // viewport and computation of the praction
@@ -119,7 +114,6 @@ public class PullPipelineFactory {
                 trans.setTransMatrix(viewTransMat);
                 persTrans.setProjMatrix(pd.getProjTransform());
                 viewTrans.setViewMatrix(pd.getViewportTransform());
-                //TODO: others
 
                 // trigger rendering of the pipeline
                 renderer.read();
