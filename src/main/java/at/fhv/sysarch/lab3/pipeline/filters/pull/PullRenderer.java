@@ -37,7 +37,6 @@ public class PullRenderer implements PullFilter<Optional<DataPair>, Void> {
                     break;
                 }
 
-
                 Face f = dp.get().getFace();
 
                 gpc.setFill(dp.get().getColor());
@@ -45,7 +44,6 @@ public class PullRenderer implements PullFilter<Optional<DataPair>, Void> {
 
                 if (this.renderingMode == RenderingMode.POINT) {
                     gpc.setLineWidth(1);
-                    //TODO: look for optimised render
                     gpc.fillOval(f.getV1().getX(), f.getV1().getY(), 1, 1);
                     gpc.fillOval(f.getV2().getX(), f.getV2().getY(), 1, 1);
                     gpc.fillOval(f.getV3().getX(), f.getV3().getY(), 1, 1);
@@ -57,11 +55,11 @@ public class PullRenderer implements PullFilter<Optional<DataPair>, Void> {
                     double[] xPoints = {f.getV1().getX(), f.getV2().getX(), f.getV3().getX()};
                     double[] yPoints = {f.getV1().getY(), f.getV2().getY(), f.getV3().getY()};
                     gpc.fillPolygon(xPoints, yPoints, 3);
+                    // Colours in the wireframe
                     gpc.strokePolygon(xPoints, yPoints, 3);
                 }
             }
         }
-
         return null;
     }
 }
