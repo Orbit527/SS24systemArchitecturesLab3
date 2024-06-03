@@ -3,6 +3,7 @@ package at.fhv.sysarch.lab3.pipeline.filters.pull;
 import at.fhv.sysarch.lab3.obj.Face;
 import at.fhv.sysarch.lab3.obj.Model;
 import at.fhv.sysarch.lab3.pipeline.Pipes.PullPipe;
+import at.fhv.sysarch.lab3.utils.MarkedFace;
 
 import java.util.Iterator;
 import java.util.List;

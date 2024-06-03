@@ -2,10 +2,11 @@ package at.fhv.sysarch.lab3.pipeline.filters.push;
 
 import at.fhv.sysarch.lab3.obj.Face;
 import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
+import at.fhv.sysarch.lab3.utils.DataPair;
 import com.hackoeur.jglm.Mat4;
 import com.hackoeur.jglm.Vec4;
 
-public class ViewportTransformation implements IFilter<DataPair, DataPair>{
+public class PushViewportTransformation implements PushFilter<DataPair, DataPair> {
 
     private Pipe<DataPair> successor;
     private Mat4 viewMatrix;

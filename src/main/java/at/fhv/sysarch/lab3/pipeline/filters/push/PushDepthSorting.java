@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Optional;
 
-public class DepthSorting implements IFilter<Optional<Face>, Optional<Face>> {
+public class PushDepthSorting implements PushFilter<Optional<Face>, Optional<Face>> {
 
     private Pipe<Optional<Face>> successor;
     private ArrayList<Face> faces = new ArrayList<>();

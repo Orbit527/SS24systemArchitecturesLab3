@@ -2,10 +2,10 @@ package at.fhv.sysarch.lab3.pipeline.filters.pull;
 
 import at.fhv.sysarch.lab3.obj.Face;
 import at.fhv.sysarch.lab3.pipeline.Pipes.PullPipe;
-import at.fhv.sysarch.lab3.pipeline.filters.push.DataPair;
+import at.fhv.sysarch.lab3.utils.DataPair;
+import at.fhv.sysarch.lab3.utils.MarkedFace;
 import com.hackoeur.jglm.Mat4;
 import com.hackoeur.jglm.Vec4;
-import javafx.scene.paint.Color;
 
 import java.util.Optional;
 

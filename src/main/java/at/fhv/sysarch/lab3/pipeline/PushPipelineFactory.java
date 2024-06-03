@@ -5,6 +5,7 @@ import at.fhv.sysarch.lab3.obj.Face;
 import at.fhv.sysarch.lab3.obj.Model;
 import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 import at.fhv.sysarch.lab3.pipeline.filters.push.*;
+import at.fhv.sysarch.lab3.utils.DataPair;
 import com.hackoeur.jglm.Mat4;
 import com.hackoeur.jglm.Matrices;
 import javafx.animation.AnimationTimer;
@@ -15,16 +16,16 @@ public class PushPipelineFactory {
     public static AnimationTimer createPipeline(PipelineData pd) {
         // push from the source (model)
 
-        SourceSingle source = new SourceSingle();
-        ResizeFilter resizeFilter = new ResizeFilter(1);
-        ModelViewTransformation trans = new ModelViewTransformation();
-        BackfaceCulling backface = new BackfaceCulling();
-        DepthSorting depthSorting = new DepthSorting();
-        Coloring coloring = new Coloring(pd.getModelColor());
-        Lighting lighting = new Lighting(pd.getLightPos());
-        PerspectiveTransformation persTrans = new PerspectiveTransformation();
-        ViewportTransformation viewTrans = new ViewportTransformation();
-        Renderer renderer = new Renderer(pd.getGraphicsContext(), pd.getRenderingMode());
+        PushSource source = new PushSource();
+        PushResizeFilter resizeFilter = new PushResizeFilter(1);
+        PushModelViewTransformation trans = new PushModelViewTransformation();
+        PushBackfaceCulling backface = new PushBackfaceCulling();
+        PushDepthSorting depthSorting = new PushDepthSorting();
+        PushColoring coloring = new PushColoring(pd.getModelColor());
+        PushLighting lighting = new PushLighting(pd.getLightPos());
+        PushPerspectiveTransformation persTrans = new PushPerspectiveTransformation();
+        PushViewportTransformation viewTrans = new PushViewportTransformation();
+        PushRenderer renderer = new PushRenderer(pd.getGraphicsContext(), pd.getRenderingMode());
 
         // Pipes
         Pipe<Optional<Face>> sourceResizeFilterPipe = new Pipe<>();

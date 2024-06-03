@@ -2,7 +2,7 @@ package at.fhv.sysarch.lab3.pipeline.filters.pull;
 
 import at.fhv.sysarch.lab3.obj.Face;
 import at.fhv.sysarch.lab3.pipeline.Pipes.PullPipe;
-import at.fhv.sysarch.lab3.pipeline.filters.push.DataPair;
+import at.fhv.sysarch.lab3.utils.DataPair;
 import javafx.scene.paint.Color;
 
 import java.util.Optional;

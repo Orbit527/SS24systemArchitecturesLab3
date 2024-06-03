@@ -1,17 +1,18 @@
 package at.fhv.sysarch.lab3.pipeline.filters.push;
 
 import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
+import at.fhv.sysarch.lab3.utils.DataPair;
 import com.hackoeur.jglm.Vec3;
 import javafx.scene.paint.Color;
 
-public class Lighting implements IFilter <DataPair, DataPair>{
+public class PushLighting implements PushFilter<DataPair, DataPair> {
 
     private Pipe<DataPair> successor;
 
     private Vec3 lightPos;
     private Boolean isPerformLighting = false;
 
-    public Lighting(Vec3 lightPos) {
+    public PushLighting(Vec3 lightPos) {
         this.lightPos = lightPos;
     }
 

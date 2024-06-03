@@ -5,13 +5,13 @@ import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 
 import java.util.Optional;
 
-public class ResizeFilter implements IFilter<Optional<Face>, Optional<Face>> {
+public class PushResizeFilter implements PushFilter<Optional<Face>, Optional<Face>> {
 
     private Pipe<Optional<Face>> successor;
 
     private int size;
 
-    public ResizeFilter(int size) {
+    public PushResizeFilter(int size) {
         this.size = size;
     }
 

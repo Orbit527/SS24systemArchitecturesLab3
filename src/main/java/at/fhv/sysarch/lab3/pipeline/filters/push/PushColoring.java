@@ -2,17 +2,18 @@ package at.fhv.sysarch.lab3.pipeline.filters.push;
 
 import at.fhv.sysarch.lab3.obj.Face;
 import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
+import at.fhv.sysarch.lab3.utils.DataPair;
 import javafx.scene.paint.Color;
 
 import java.util.Optional;
 
-public class Coloring implements IFilter<Optional<Face>, DataPair>{
+public class PushColoring implements PushFilter<Optional<Face>, DataPair> {
 
 
     private Pipe<DataPair> successor;
     private final Color color;
 
-    public Coloring(Color color) {
+    public PushColoring(Color color) {
         this.color = color;
     }
 

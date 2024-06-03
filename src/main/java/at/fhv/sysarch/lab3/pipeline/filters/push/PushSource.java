@@ -7,7 +7,7 @@ import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 import java.util.List;
 import java.util.Optional;
 
-public class SourceSingle implements IFilter<Model, Optional<Face>> {
+public class PushSource implements PushFilter<Model, Optional<Face>> {
 
     private Pipe<Optional<Face>> successor;
 

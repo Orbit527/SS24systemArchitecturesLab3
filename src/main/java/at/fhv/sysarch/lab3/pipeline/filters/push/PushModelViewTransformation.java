@@ -7,7 +7,7 @@ import com.hackoeur.jglm.Vec4;
 
 import java.util.Optional;
 
-public class ModelViewTransformation implements IFilter<Optional<Face>, Optional<Face>> {
+public class PushModelViewTransformation implements PushFilter<Optional<Face>, Optional<Face>> {
 
     private Pipe<Optional<Face>> successor;
     private Mat4 transMatrix;

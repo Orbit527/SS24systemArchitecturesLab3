@@ -5,7 +5,7 @@ import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 
 import java.util.Optional;
 
-public class BackfaceCulling implements IFilter<Optional<Face>, Optional<Face>>{
+public class PushBackfaceCulling implements PushFilter<Optional<Face>, Optional<Face>> {
 
     private Pipe<Optional<Face>> successor;
     @Override

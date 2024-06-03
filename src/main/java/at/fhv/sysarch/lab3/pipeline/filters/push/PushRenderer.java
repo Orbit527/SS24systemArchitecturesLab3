@@ -2,14 +2,15 @@ package at.fhv.sysarch.lab3.pipeline.filters.push;
 
 import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 import at.fhv.sysarch.lab3.rendering.RenderingMode;
+import at.fhv.sysarch.lab3.utils.DataPair;
 import javafx.scene.canvas.GraphicsContext;
 
-public class Renderer implements IFilter<DataPair, DataPair>{
+public class PushRenderer implements PushFilter<DataPair, DataPair> {
 
     private final GraphicsContext gpc;
     private final RenderingMode renderingMode;
 
-    public Renderer(GraphicsContext gpc, RenderingMode renderingMode) {
+    public PushRenderer(GraphicsContext gpc, RenderingMode renderingMode) {
         this.gpc = gpc;
         this.renderingMode = renderingMode;
     }

@@ -1,4 +1,4 @@
-package at.fhv.sysarch.lab3.pipeline.filters.push;
+package at.fhv.sysarch.lab3.utils;
 
 import at.fhv.sysarch.lab3.obj.Face;
 

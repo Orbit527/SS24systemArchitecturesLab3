@@ -2,7 +2,7 @@ package at.fhv.sysarch.lab3.pipeline.filters.push;
 
 import at.fhv.sysarch.lab3.pipeline.Pipes.Pipe;
 
-public interface IFilter<I, O> {
+public interface PushFilter<I, O> {
 
     public void setSuccessor(Pipe<O> successor);
 
