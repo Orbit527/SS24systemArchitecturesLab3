@@ -35,7 +35,10 @@ public class DepthSorting implements IFilter<Optional<Face>, Optional<Face>> {
             faces.add(face.get());
             return null;
         } else {
-            faces.sort(Comparator.comparingDouble((Face f) -> f.getV1().getZ()));
+            faces.sort(Comparator.comparing(f ->
+                    (f != null ? f.getV1().getZ() : 0) +
+                            (f != null ? f.getV2().getZ() : 0) +
+                            (f != null ? f.getV3().getZ() : 0)));
             return face;
         }
 
