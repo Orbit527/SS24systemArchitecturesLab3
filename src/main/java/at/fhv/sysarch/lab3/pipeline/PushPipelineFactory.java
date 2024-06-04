@@ -17,7 +17,6 @@ public class PushPipelineFactory {
         // push from the source (model)
 
         PushSource source = new PushSource();
-        PushResizeFilter resizeFilter = new PushResizeFilter(1);
         PushModelViewTransformation trans = new PushModelViewTransformation();
         PushBackfaceCulling backface = new PushBackfaceCulling();
         PushDepthSorting depthSorting = new PushDepthSorting();
@@ -28,8 +27,7 @@ public class PushPipelineFactory {
         PushRenderer renderer = new PushRenderer(pd.getGraphicsContext(), pd.getRenderingMode());
 
         // Pipes
-        Pipe<Optional<Face>> sourceResizeFilterPipe = new Pipe<>();
-        Pipe<Optional<Face>> resizeFilterTransPipe = new Pipe<>();
+        Pipe<Optional<Face>> sourceTransPipe = new Pipe<>();
         Pipe<Optional<Face>> transBackfacePipe = new Pipe<>();
         Pipe<Optional<Face>> backfaceDepthSortingPipe = new Pipe<>();
         Pipe<Optional<Face>> depthSortingColoringPipe = new Pipe<>();
@@ -40,10 +38,8 @@ public class PushPipelineFactory {
 
 
         // perform model-view transformation from model to VIEW SPACE coordinates
-        source.setSuccessor(sourceResizeFilterPipe);
-        sourceResizeFilterPipe.setSuccessor(resizeFilter);
-        resizeFilter.setSuccessor(resizeFilterTransPipe);
-        resizeFilterTransPipe.setSuccessor(trans);
+        source.setSuccessor(sourceTransPipe);
+        sourceTransPipe.setSuccessor(trans);
         trans.setSuccessor(transBackfacePipe);
         transBackfacePipe.setSuccessor(backface);
 

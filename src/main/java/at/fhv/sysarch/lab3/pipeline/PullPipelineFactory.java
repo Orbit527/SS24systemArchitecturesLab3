@@ -18,7 +18,6 @@ public class PullPipelineFactory {
 
         Model model = pd.getModel();
         PullSource source = new PullSource();
-        PullResizeFilter resizeFilter = new PullResizeFilter(1);
         PullModelViewTransformation trans = new PullModelViewTransformation();
         PullBackfaceCulling backface = new PullBackfaceCulling();
         PullDepthSorting depthSorting = new PullDepthSorting();
@@ -29,8 +28,7 @@ public class PullPipelineFactory {
         PullRenderer renderer = new PullRenderer(pd.getGraphicsContext(), pd.getRenderingMode());
 
         // Pipes
-        PullPipe<Optional<Face>> sourceResizeFilterPipe = new PullPipe<>();
-        PullPipe<Optional<Face>> resizeFilterTransPipe = new PullPipe<>();
+        PullPipe<Optional<Face>> sourceTransPipe = new PullPipe<>();
         PullPipe<Optional<Face>> transBackfacePipe = new PullPipe<>();
         PullPipe<Optional<Face>> backfaceDepthSortingPipe = new PullPipe<>();
         PullPipe<Optional<Face>> depthSortingColoringPipe = new PullPipe<>();
@@ -42,10 +40,8 @@ public class PullPipelineFactory {
 
         // perform model-view transformation from model to VIEW SPACE coordinates
         source.setModel(model);
-        sourceResizeFilterPipe.setPredecessor(source);
-        resizeFilter.setPredecessor(sourceResizeFilterPipe);
-        resizeFilterTransPipe.setPredecessor(resizeFilter);
-        trans.setPredecessor(resizeFilterTransPipe);
+        sourceTransPipe.setPredecessor(source);
+        trans.setPredecessor(sourceTransPipe);
         transBackfacePipe.setPredecessor(trans);
 
         // perform backface culling in VIEW SPACE
