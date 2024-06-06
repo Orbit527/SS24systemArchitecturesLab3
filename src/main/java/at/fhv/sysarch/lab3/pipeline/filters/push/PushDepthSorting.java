@@ -36,9 +36,9 @@ public class PushDepthSorting implements PushFilter<Optional<Face>, Optional<Fac
             return null;
         } else {
             faces.sort(Comparator.comparing(f ->
-                            (f != null ? f.getV1().getZ() : 0) +
-                            (f != null ? f.getV2().getZ() : 0) +
-                            (f != null ? f.getV3().getZ() : 0)));
+                            (f.getV1().getZ()) +
+                            (f.getV2().getZ()) +
+                            (f.getV3().getZ())));
             return face;
         }
 

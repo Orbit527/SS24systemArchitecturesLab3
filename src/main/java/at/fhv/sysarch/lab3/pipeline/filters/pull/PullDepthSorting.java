@@ -45,9 +45,9 @@ public class PullDepthSorting implements PullFilter<Optional<Face>, Optional<Fac
     private void sortFaces() {
         if (!faces.isEmpty()) {
             faces.sort(Comparator.comparing(f ->
-                            (f != null ? f.getV1().getZ() : 0) +
-                            (f != null ? f.getV2().getZ() : 0) +
-                            (f != null ? f.getV3().getZ() : 0)));
+                            (f.getV1().getZ()) +
+                            (f.getV2().getZ()) +
+                            (f.getV3().getZ())));
             facesSorted = faces;
             faces = new LinkedList<>();
         }

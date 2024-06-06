@@ -30,8 +30,6 @@ public class PullColoring implements PullFilter<Optional<Face>, Optional<DataPai
             DataPair dataPair = new DataPair(face.get(), color);
 
             return Optional.of(dataPair);
-
-            // Apply transformation logic here
         }
         return Optional.empty();
     }
